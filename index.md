@@ -15,11 +15,13 @@ In order to use all of the features available to you through NLTK, download **al
    
 
 # Tokenization
+
 Tokenization is the process by which data is divided into subparyts to be more easily analyzed. These parts are called *tokens* in NLP. While tokens often map to the words of sentences directly, tokens can also represent whole sentences within a larger body of text. Tokens are useful for identifying patterns in your data and are an important first step for many projects; rarely can we reach conclusions about a sentence, paragraph, or paper as a whole if we cannot make conclusions about its parts. Tokens are our building blocks for text classfication, sentiment analysis, and more.
 
 Tokenization is simplified with NLTK's **tokenize** module, which includes two sub-modules *sent_tokenize()* and *word_tokenize()*.
 
 ## sent_tokenize()
+
 The *sent_tokenize()* sub-module is used to divide a body of text larger than a single sentence into individual sentences. In this case, each of the resulting tokens will be a whole sentence.
 
 Let's take as a simple example the famous line said by Carrie Fisher as Princess Leia Organa in *Star Wars: Episode IV - A New Hope*:
@@ -51,22 +53,47 @@ It is very possible to end up with several of these exceptions, which, when hand
 In your preferred text editor, we can use NLTK to tokenize Princess Leia's line for us:
       
       line      = "Help me, Obi-Wan Kenobi. You're my only hope."
-      sentences = nltk.sent_tokenizer(line)
+      sentences = nltk.sent_tokenize(line)
       
-      print("tokenized sentences: ", sentences)
+      print("sentences: ", sentences)
 
 The output should look like this:
       
-      tokenized sentences: ['Help me, Obi-Wan Kenobi.', 'You're my only hope.']
+      sentences: ['Help me, Obi-Wan Kenobi.', 'You're my only hope.']
       
-Here, we can see that the *sent_tokenizer()* successfully identified the two sentences and overlooked the potential issue with the comma.
+Here, we can see that the *sent_tokenize()* successfully identified the two sentences and overlooked the potential issue with the comma.
 
-NLTK's *sent_tokenizer()* can help with simple tasks, but more importantly, it can make dividing up much larger bodies of text a simple task.
-
-
-      
+NLTK's *sent_tokenize()* can help with simple tasks like this example, but more importantly, it can make dividing up much larger bodies of text a simple task because it successfully accounts for variation in text.
 
 ## word_tokenize()
+
+Many tasks will rely on individual words from sentences. The sentences may be a result of passing a paragraph through the *sent_tokenizer()* first, or they may be the original structure of your input, but, importantly, we are interested in dividing each of these sentences into smaller parts. The tokens that result from tokenizing a whole sentence are usually words and sentential punctuation. 
+
+We'll use another simple example to illustrate *word_tokenize()*. This one is a line spoken by Tom Holland as Spider-Man in *Avengers: Infinity War*:
+
+      'Mr. Stark, I don't feel so good.'
+      
+When we tokenize a sentence into its parts, we want individual words and sentential punctuation to be individual tokens. We could simply split the sentence on the whitespaces between each word and further identify sentential punctuation like periods and commas and make those individual tokens, as well.
+
+There are, however, two points of interest in this example that could get tricky if we approached this task manually.
+
+First, we can look at the contraction *don't*. The standard approach for handling contractions is to separate the contracted portion *n't* from the rest of the word *do*. One reason for this is that *n't* is common among other contractions like *aren't* and *isn't*, T we can consider it as an individual token and tally how many contractions are present in a document by counting how many instances of *n't* are present. We could include a regular expression to identify the contracted portion from the rest of the word, but this is adding another condition to be cautious of as we tokenize our sentences. Each time something new appears, we would need to add another condition.
+
+The other word that should give us pause is *Mr.* since it is typical to tokenize sentential puncutation independent of the rest of the sentence. Following that logic, we would think that *Mr* should be one token and *.* should be another, but as speakers and readers of the language, we know this isn't ideal. So, this is another potential hiccup in manually tokenizing the sentence, especially since the immediate environment of the period after *Mr* is not dramatically different from the environment for the period after *good*. Both periods are in the final position of the word, and if we had more sentences in the quote, they would be followed by a whitespace, as well. 
+
+Both of these concerns are handled well by NLTK's *word_tokenize()*, and we can illustrate this with our example from *Avengers: Infinity War*:
+      
+      line   = 'Mr. Stark, I don't feel so good.'
+      tokens = nltk.word_tokenize(line)
+      
+      print("tokens: ", tokens)
+      
+The output of this should be:
+
+      tokens:  ['Mr.', 'Stark', ',', 'I', 'do', "n't", 'feel', 'so', 'good', '.']
+      
+Here, we can see that the NLTK *word_tokenize()* was successful in tokenizing this sentence in the most natural way.
+
 
 
 
