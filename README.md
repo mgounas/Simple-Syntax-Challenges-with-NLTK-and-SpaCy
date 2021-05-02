@@ -17,14 +17,14 @@ In order to use all of the features available to you through NLTK, download **al
 # Tokenization
 Tokenization is the process by which data is divided into subparyts to be more easily analyzed. These parts are called *tokens* in NLP. While tokens often map to the words of sentences directly, tokens can also represent whole sentences within a larger body of text. Tokens are useful for identifying patterns in your data and are an important first step for many projects; rarely can we reach conclusions about a sentence, paragraph, or paper as a whole if we cannot make conclusions about its parts. Tokens are our building blocks for text classfication, sentiment analysis, and more.
 
-Tokenization is simplified with NLTK's **tokenize** module, which includes two sub-modules *sentence_tokenize()* and *word_tokenize()*.
+Tokenization is simplified with NLTK's **tokenize** module, which includes two sub-modules *sent_tokenize()* and *word_tokenize()*.
 
 ## sent_tokenize()
-The *sent_tokenize()* sub-module is used to divide a paragraph or body of text larger than a single sentence into individual sentences. In this case, each of the resulting tokens will be a whole sentence.
+The *sent_tokenize()* sub-module is used to divide a body of text larger than a single sentence into individual sentences. In this case, each of the resulting tokens will be a whole sentence.
 
 Let's take as a simple example the famous line said by Carrie Fisher as Princess Leia Organa in *Star Wars: Episode IV - A New Hope*:
 
-      "Help me, Obi-Wan Kenobi. You're my only hope."
+      'Help me, Obi-Wan Kenobi. You're my only hope.'
       
 In tokenizing this quote into sentences, we should expect to find two sentences as a result:
 
@@ -32,7 +32,7 @@ In tokenizing this quote into sentences, we should expect to find two sentences 
       
       (2) 'You're my only hope.'
 
-As speakers, we can easily identify where the natural sentence break, but a computer needs to be taught the nuances that we take for granted. 
+As speakers, we can easily identify where the natural sentence break is, but a computer needs to be taught the nuances that we take for granted. 
 
 If we were to describe the intuition we have in identifying the end of one sentence and the start of the next, we might say that in written text: 
   
@@ -44,13 +44,26 @@ We could include a regular expression to account for these conditions, so why wo
 
 While those three pieces certainly describe the break within "Kenobi. You're" which is our desired sentence break, it also could describe "me, Obi-Wan" depending on how we define *sentential punctuation*.
 
-We could resolve this simply by excluding commas from our category for *sentential punctuation*, but we may find that we need commas to be included in another aspect of our project. 
+We could resolve this simply by excluding commas from our category for *sentential punctuation*, but we may find that we need commas to be included in another aspect of our project. For example, while people do not intend to write run-on sentences, it's very common for them to be written with several commas, and a task may be to revise run-on sentences. In this case, we would need to consider commas, so they cannot always be excluded from our understanding of *sentential punctuation*.
 
-In manually dividing paragraphs into sentences, it's not usually as simple as two sentences with a clear separation. In larger data sets, there can be some aspects that we don't expect that may render our simple approach unsuccessful and insufficient.
+It is very possible to end up with several of these exceptions, which, when handled manually, can get confusing and can require a lot of effort to remedy. Instead, we can use NLTK for sentence tokenization, since it is already optimized for this purpose.
 
-NLTK's *sent_tokenizer()* can help with simple tasks, but more importantly, it can make dividing up much larger bodies of text simple.
+In your preferred text editor, we can use NLTK to tokenize Princess Leia's line for us:
+      
+      line      = "Help me, Obi-Wan Kenobi. You're my only hope."
+      sentences = nltk.sent_tokenizer(line)
+      
+      print("tokenized sentences: ", sentences)
 
-In your preferred text editor, the 
+The output should look like this:
+      
+      tokenized sentences: ['Help me, Obi-Wan Kenobi.', 'You're my only hope.']
+      
+Here, we can see that the *sent_tokenizer()* successfully identified the two sentences and overlooked the potential issue with the comma.
+
+NLTK's *sent_tokenizer()* can help with simple tasks, but more importantly, it can make dividing up much larger bodies of text a simple task.
+
+
       
 
 ## word_tokenize()
