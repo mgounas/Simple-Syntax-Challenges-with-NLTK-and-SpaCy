@@ -16,7 +16,7 @@ In order to use all of the features available to you through NLTK, download **al
 
 # Tokenization
 
-Tokenization is the process by which data is divided into subparyts to be more easily analyzed. These parts are called *tokens* in NLP. While tokens often map to the words of sentences directly, tokens can also represent whole sentences within a larger body of text. Tokens are useful for identifying patterns in your data and are an important first step for many projects; rarely can we reach conclusions about a sentence, paragraph, or paper as a whole if we cannot make conclusions about its parts. Tokens are our building blocks for text classfication, sentiment analysis, and more.
+*Tokenization* is the process by which data is divided into subparyts to be more easily analyzed. These parts are called *tokens* in NLP. While tokens often map to the words of sentences directly, tokens can also represent whole sentences within a larger body of text. Tokens are useful for identifying patterns in your data and are an important first step for many projects; rarely can we reach conclusions about a sentence, paragraph, or paper as a whole if we cannot make conclusions about its parts. Tokens are our building blocks for text classfication, sentiment analysis, and more.
 
 Tokenization is simplified with NLTK's **tokenize** module, which includes two sub-modules *sent_tokenize()* and *word_tokenize()*.
 
@@ -52,6 +52,8 @@ It is very possible to end up with several of these exceptions, which, when hand
 
 In your preferred text editor, we can use NLTK to tokenize Princess Leia's line for us:
       
+      from nltk import sent_tokenize
+      
       line      = "Help me, Obi-Wan Kenobi. You're my only hope."
       sentences = nltk.sent_tokenize(line)
       
@@ -83,8 +85,10 @@ The other word that should give us pause is *Mr.* since it is typical to tokeniz
 
 Both of these concerns are handled well by NLTK's *word_tokenize()*, and we can illustrate this with our example from *Avengers: Infinity War*:
       
+      from nltk import word_tokenize
+      
       line   = 'Mr. Stark, I don't feel so good.'
-      tokens = nltk.word_tokenize(line)
+      tokens = word_tokenize(line)
       
       print("tokens: ", tokens)
       
@@ -92,9 +96,64 @@ The output of this should be:
 
       tokens:  ['Mr.', 'Stark', ',', 'I', 'do', "n't", 'feel', 'so', 'good', '.']
       
-Here, we can see that the NLTK *word_tokenize()* was successful in tokenizing this sentence in the most natural way.
+Here, we can see that the NLTK *word_tokenize()* was successful in tokenizing this sentence in the most natural way and accounted for the two potential issues we outlined above.
 
+The *sent_tokenizer()* and *word_tokenizer()* from the Natural Language Toolkit make tokenization efficient and simple to use.
 
+# Stemming and Lemmatization
+
+*Stemming* and *lemmatization* are processes by which words are simplified. These can be helpful in identifying a consistent sentiment when an author has written several words with the same roots but different forms. 
+
+Both *stemming* and *lemmatization* can establish relationships among words, but they behave differently. Critically, *stemming* can be faster but it risks generating stems that are not real words. While *lemmatization* can be slower, it considers context and only generates real words.
+
+# PorterStemmer()
+
+*Stemming* often removes the endings of words without considering what will be left over. In some cases, this is not much of a concern, and the speed with which the system can stem may be preferred. The *PorterStemmer()* is an option we can use in for stemming words.
+
+A simple concept where stemming is useful would be removing the plural ending on plural forms of nouns.
+
+Let's take the following pairs of singular and plural forms of nouns:
+      
+      supervillian ~ supervillians
+      superhero ~ superheroes
+      
+Knowing that the plural marker in English is *-s* we can easily determine that the stemmed form of *supervillains* will be *supervillian*. We might expect the stemmer to remove only the *-s* from both plural forms above, which would result in *superheroe* which would be incorrect. Let's test it:
+
+      from nltk.stem import PorterStemmer
+      porter_stemmer = PorterStemmer()
+      
+      words = ["supervillain", "supervillains", "superhero", "superheroes"]
+
+      for word in words:
+          stem = porter_stemmer.stem(word)
+          print("The stem for", word, "is", stem)
+          
+The output is:
+
+      The stem for supervillain is supervillain
+      The stem for supervillains is supervillain
+      The stem for superhero is superhero
+      The stem for superheroes is superhero
+
+The stemmer got it right! It can, however, be the case that the stemmer generate stems that are not real words:
+
+      from nltk.stem import PorterStemmer
+      porter_stemmer = PorterStemmer()
+      
+      words = ["cry", "crying", "cries", "cried"]
+
+      for word in words:
+          stem = porter_stemmer.stem(word)
+          print("The stem for", word, "is", stem)
+          
+The output here is:
+
+      The stem for cry is cri
+      The stem for crying is cri
+      The stem for cries is cri
+      The stem for cried is cri
+      
+So, when using the *PorterStemmer()*, you need to be aware of potential outputs like these. If this is not desirable for the project you are working on you should consider *lemmatization*.
 
 
 ## Welcome to GitHub Pages
