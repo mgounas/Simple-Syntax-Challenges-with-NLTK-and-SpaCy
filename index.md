@@ -106,7 +106,7 @@ The *sent_tokenizer()* and *word_tokenizer()* from the Natural Language Toolkit 
 
 Both *stemming* and *lemmatization* can establish relationships among words, but they behave differently. Critically, *stemming* can be faster but it risks generating stems that are not real words. While *lemmatization* can be slower, it considers context and only generates real words.
 
-# PorterStemmer()
+## PorterStemmer()
 
 *Stemming* often removes the endings of words without considering what will be left over. In some cases, this is not much of a concern, and the speed with which the system can stem may be preferred. The *PorterStemmer()* is an option we can use in for stemming words.
 
@@ -155,7 +155,7 @@ The output here is:
       
 So, when using the *PorterStemmer()*, you need to be aware of potential outputs like these. If this is not desirable for the project you are working on you should consider *lemmatization*.
 
-# WordNetLemmatizer()
+## WordNetLemmatizer()
 
 *Lemmatization* is similar to *stemming* but a key difference is that anything generated through *lemmatization* will be a real word. Let's take the set of examples with the output *cri* from the *PorterStemmer()* section above and apply the *WordNetLemmatizer()* instead:
 
