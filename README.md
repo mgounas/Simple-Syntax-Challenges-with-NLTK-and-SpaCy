@@ -1,4 +1,4 @@
-# Simple-Syntax-Tasks-with-NLTK-and-SpaCy
+# Simple-Syntax-Tasks-with-NLTK
 
 The Natural Language Toolkit, abbreviated as NLTK, is very useful for beginners to Natural Language Processing (NLP). NLTK can be installed following the steps here: https://www.nltk.org/install.html. 
 
