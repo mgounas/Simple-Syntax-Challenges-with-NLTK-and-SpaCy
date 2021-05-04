@@ -155,6 +155,27 @@ The output here is:
       
 So, when using the *PorterStemmer()*, you need to be aware of potential outputs like these. If this is not desirable for the project you are working on you should consider *lemmatization*.
 
+# WordNetLemmatizer()
+
+*Lemmatization* is similar to *stemming* but a key difference is that anything generated through *lemmatization* will be a real word. Let's take the set of examples with the output *cri* from the *PorterStemmer()* section above and apply the *WordNetLemmatizer()* instead:
+
+      from nltk.stem import WordNetLemmatizer
+      word_net_lemmatizer = WordNetLemmatizer()
+
+      words = ["cry", "crying", "cries", "cried"]
+
+      for word in words:
+            lemma = word_net_lemmatizer.lemmatize(word)
+            print("The lemma for", word, "is", lemma)
+
+The output now is:
+
+      The lemma for cry is cry
+      The lemma for crying is cry
+      The lemma for cries is cry
+      The lemma for cried is cried
+
+These may be easier to work with than the output from the *PorterStemmer()* since they are real words. 
 
 ## Welcome to GitHub Pages
 
